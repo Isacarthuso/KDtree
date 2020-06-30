@@ -16,7 +16,8 @@ struct No
 vector<float> choosetheponintToBalanceKDtree(vector<vector<float>> cloud, int region);
 void createKDtree(vector<vector<float>> points);
 void insertPointAtTree(vector<float> point);
-
+vector<vector<float>> searchNearestNeighbors(vector<float> target, int tolerance);
+void goThrougthTheTree(No *no, vector<float> target, int tolerance, vector<vector<float>> &NearestNeighbors);
 
 
 
