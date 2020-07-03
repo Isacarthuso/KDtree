@@ -2,6 +2,8 @@
 #include<iostream>
 using namespace std;
 
+
+
 struct No
 {
     vector<float> noPoint;
@@ -13,29 +15,8 @@ struct No
     }
 };
 
-vector<float> choosetheponintToBalanceKDtree(vector<vector<float>> cloud, int region);
-void createKDtree(vector<vector<float>> points);
+vector<float> choosetheponintToBalanceKDtree(vector<vector<float>> cloud);
+void createKDtree(vector<vector<float>> points, bool dim);
 void insertPointAtTree(vector<float> point);
 vector<vector<float>> searchNearestNeighbors(vector<float> target, int tolerance);
 void goThrougthTheTree(No *no, vector<float> target, int tolerance, vector<vector<float>> &NearestNeighbors);
-
-
-
-
-
-
-//struct No
-//{
-//   float NOvalue;
-//   int NOdimention; //set x = 0, y = 1, z = 2
-//   vector<vector<float>> left;
-//   vector<vector<float>> rigth;
-//};
-//
-//void createKDtree(vector<vector<float>> points, int minNopoints);
-//No* rootCreator(vector<vector<float>> cloud, int dim);
-////side 0 to Rigth 1 to Left
-//No* noCreator(No *lastNoAddress, int side, int dim);
-//float choosetheponintToBalanceKDtree(vector<vector<float>> cloud, int region);
-
-
