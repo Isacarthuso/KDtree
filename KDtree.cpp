@@ -44,7 +44,7 @@ void insertNo(No* previousNo, No* currentyNo, vector<float> point)
                 cout << "point x: " << currentyNo->noPoint[0] << endl;
                 cout << "point y: " << currentyNo->noPoint[1] << endl;
                 if (dimension)
-                    cout << "point z: " << currentyNo->noPoint[2] << endl;
+                cout << "point z: " << currentyNo->noPoint[2] << endl;
                 cout << "Point Level: " << currentyNo->layer << endl;
                 cout << "Previous No: " << previousNo << endl;
                 cout << "Previous Rigth No: " << previousNo->nextNoRigth << endl;
@@ -69,7 +69,7 @@ void insertNo(No* previousNo, No* currentyNo, vector<float> point)
             cout << "point x: " << currentyNo->noPoint[0] << endl;
             cout << "point y: " << currentyNo->noPoint[1] << endl;
             if (dimension)
-                cout << "point z: " << currentyNo->noPoint[2] << endl;
+            cout << "point z: " << currentyNo->noPoint[2] << endl;
             cout << "Point Level: " << currentyNo->layer << endl;
             cout << "Previous No: " << previousNo << endl;
             cout << "Previous Rigth No: " << previousNo->nextNoRigth << endl;
@@ -348,3 +348,62 @@ void goThrougthTheTree(No* no, vector<float> target, int tolerance, vector<vecto
         }
     }
 }
+
+vector<vector<float>>* clusteringTree(vector<float> point, vector<vector<float>> points, vector<bool>& processed, float distanceTol)
+{
+    vector<vector<float>> nearest;
+    vector<vector<float>>* cluster = new vector<vector<float>>;
+
+    nearest = searchNearestNeighbors(point, distanceTol);
+    for( int i = 0; i < nearest.size(); i++ )
+    {
+      cluster->push_back(nearest[i]);
+      cout << "nearest x: " << nearest[i][0] << endl;
+    }
+
+    for (int i = 0; i < nearest.size(); i++)
+    {
+        for (int id = 0; id < points.size(); id++)
+        {
+            if (dimension)
+            { 
+                if (nearest[i][0] == points[id][0] && nearest[i][1] == points[id][1] && nearest[i][2] == points[id][2])
+                processed[id] = true;
+            }
+            else
+            {
+                if (nearest[i][0] == points[id][0] && nearest[i][1] == points[id][1])
+                processed[id] = true;
+            }
+        }
+    }
+
+    for (int i = 0; i < processed.size(); i++)
+    {
+        cout << "Processed: " << processed[i] << endl;
+    }
+
+    return cluster;
+}
+
+vector<vector<vector<float>>*> clustersTree(vector<vector<float>> points, float distanceTol)
+{
+    vector<vector<vector<float>>*> ptrClusters;
+    vector<bool> processed(points.size(), false);
+
+    int i = 0;
+    while (i < points.size())
+    {
+        if (processed[i])
+        {
+            i++;
+            continue;
+        }
+        ptrClusters.push_back(clusteringTree(points[i], points, processed, distanceTol));
+        i++;
+    }
+
+    return ptrClusters;
+}
+
+
