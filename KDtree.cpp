@@ -15,12 +15,6 @@ void createKDtree(vector<vector<float>> points, bool dim)
     i = 0;
     do{
         balancedPoint = choosetheponintToBalanceKDtree(points);
-        cout << "********************************* " << endl;
-        cout << "Size: " << points.size() << endl;
-        cout << "x: " << balancedPoint[0] << endl;
-        cout << "y: " << balancedPoint[1] << endl;
-        cout << "z: " << balancedPoint[2] << endl;
-        cout << "********************************* " << endl;
         insertPointAtTree(balancedPoint);
         if(dimension)
             points.erase(points.begin() + balancedPoint[3]);
@@ -40,6 +34,7 @@ void insertNo(No* previousNo, No* currentyNo, vector<float> point)
                 previousNo->nextNoRigth = currentyNo;
                 currentyNo->noPoint = point;
                 currentyNo->layer = 1;
+                cout << "-------------------- New No -------------------------:" << endl;
                 cout << "No Address: " << currentyNo << endl;
                 cout << "point x: " << currentyNo->noPoint[0] << endl;
                 cout << "point y: " << currentyNo->noPoint[1] << endl;
@@ -65,6 +60,7 @@ void insertNo(No* previousNo, No* currentyNo, vector<float> point)
             previousNo->nextNoLeft = currentyNo;
             currentyNo->noPoint = point;
             currentyNo->layer = 1;
+            cout << "-------------------- New No -------------------------:" << endl;
             cout << "No Address: " << currentyNo << endl;
             cout << "point x: " << currentyNo->noPoint[0] << endl;
             cout << "point y: " << currentyNo->noPoint[1] << endl;
@@ -93,6 +89,7 @@ void insertNo(No* previousNo, No* currentyNo, vector<float> point)
                 currentyNo->layer = 2;
             else
                 currentyNo->layer = 0;
+            cout << "-------------------- New No -------------------------:" << endl;
             cout << "No Address: " << currentyNo << endl;
             cout << "point x: " << currentyNo->noPoint[0] << endl;
             cout << "point y: " << currentyNo->noPoint[1] << endl;
@@ -120,6 +117,7 @@ void insertNo(No* previousNo, No* currentyNo, vector<float> point)
                 currentyNo->layer = 2;
             else
                 currentyNo->layer = 0;
+            cout << "-------------------- New No -------------------------:" << endl;
             cout << "No Address: " << currentyNo << endl;
             cout << "point x: " << currentyNo->noPoint[0] << endl;
             cout << "point y: " << currentyNo->noPoint[1] << endl;
@@ -146,6 +144,7 @@ void insertNo(No* previousNo, No* currentyNo, vector<float> point)
                 previousNo->nextNoRigth = currentyNo;
                 currentyNo->noPoint = point;
                currentyNo->layer = 0;
+                cout << "-------------------- New No -------------------------:" << endl;
                 cout << "No Address: " << currentyNo << endl;
                 cout << "point x: " << currentyNo->noPoint[0] << endl;
                 cout << "point y: " << currentyNo->noPoint[1] << endl;
@@ -169,6 +168,7 @@ void insertNo(No* previousNo, No* currentyNo, vector<float> point)
                 previousNo->nextNoLeft = currentyNo;
                 currentyNo->noPoint = point;
                 currentyNo->layer = 0;
+                cout << "-------------------- New No -------------------------:" << endl;
                 cout << "No Address: " << currentyNo << endl;
                 cout << "point x: " << currentyNo->noPoint[0] << endl;
                 cout << "point y: " << currentyNo->noPoint[1] << endl;
@@ -191,15 +191,14 @@ void insertNo(No* previousNo, No* currentyNo, vector<float> point)
 void insertPointAtTree(vector<float> point)
 {
     static No *root = NULL;
-
     No* no = new No;
-
     if (root == NULL)
     {
         no->noPoint = point;
         no->layer = 0;
         root = no;
         ROOT = root;
+        cout << "----------------------- ROOT --------------------------: " << endl;
         cout << "ROOT ADDRESS: " << root << endl;
         cout << "point x: " << root->noPoint[0] << endl;
         cout << "point y: " << root->noPoint[1] << endl;
@@ -218,11 +217,6 @@ void insertPointAtTree(vector<float> point)
 
 vector<float> choosetheponintToBalanceKDtree(vector<vector<float>> cloud)
 {
-    /*
-    region = 0 -> x
-    region = 1 -> y
-    region = 2 -> z
-    */
     float large, menor, range, median, deltaP;
     int region = 0;
     vector<float> bestpoint;
@@ -266,7 +260,6 @@ vector<float> choosetheponintToBalanceKDtree(vector<vector<float>> cloud)
 vector<vector<float>> searchNearestNeighbors(vector<float> target, int tolerance)
 {
     vector<vector<float>> nearestNeighbors;
-    cout << "Return root address in search: " << ROOT << endl;
     goThrougthTheTree(ROOT, target, tolerance, nearestNeighbors);
     return nearestNeighbors;
 }
@@ -278,8 +271,6 @@ void goThrougthTheTree(No* no, vector<float> target, int tolerance, vector<vecto
 
     if (no != NULL)
     {
-        cout << "Search X: " << no->noPoint[0] << endl;
-
         if (dimension)
         {
             if ((no->noPoint[0] >= (target[0] - tolerance) && no->noPoint[0] <= (target[0] + tolerance)) &&
@@ -290,7 +281,6 @@ void goThrougthTheTree(No* no, vector<float> target, int tolerance, vector<vecto
                                 (no->noPoint[1] - target[1]) * (no->noPoint[1] - target[1]) +
                                 (no->noPoint[2] - target[2]) * (no->noPoint[2] - target[2]));
 
-                std::cout << "Distance: " << distance << std::endl;
                 if (distance <= tolerance)
                 {
                     addNN.push_back(no->noPoint[0]);
@@ -308,8 +298,7 @@ void goThrougthTheTree(No* no, vector<float> target, int tolerance, vector<vecto
                 no->noPoint[1] >= (target[1] - tolerance) && no->noPoint[1] <= (target[1] + tolerance))
             {
                 distance = sqrt((no->noPoint[0] - target[0]) * (no->noPoint[0] - target[0]) +
-                    (no->noPoint[1] - target[1]) * (no->noPoint[1] - target[1]));
-                std::cout << "Distance: " << distance << std::endl;
+                                (no->noPoint[1] - target[1]) * (no->noPoint[1] - target[1]));
                 if (distance <= tolerance)
                 {
                     addNN.push_back(no->noPoint[0]);
@@ -353,34 +342,34 @@ vector<vector<float>>* clusteringTree(vector<float> point, vector<vector<float>>
 {
     vector<vector<float>> nearest;
     vector<vector<float>>* cluster = new vector<vector<float>>;
+    static int b = 0;
 
     nearest = searchNearestNeighbors(point, distanceTol);
-    for( int i = 0; i < nearest.size(); i++ )
-    {
-      cluster->push_back(nearest[i]);
-      cout << "nearest x: " << nearest[i][0] << endl;
-    }
 
     for (int i = 0; i < nearest.size(); i++)
     {
         for (int id = 0; id < points.size(); id++)
         {
             if (dimension)
-            { 
-                if (nearest[i][0] == points[id][0] && nearest[i][1] == points[id][1] && nearest[i][2] == points[id][2])
-                processed[id] = true;
+            {
+                if (nearest[i][0] == points[id][0] && nearest[i][1] == points[id][1] && nearest[i][2] == points[id][2] && processed[id] == false)
+                {
+                    processed[id] = true;
+                    cluster->push_back(nearest[i]);
+                    cout << "N point clust: " << ++b << endl;
+                }
+                
             }
             else
             {
-                if (nearest[i][0] == points[id][0] && nearest[i][1] == points[id][1])
-                processed[id] = true;
+                if (nearest[i][0] == points[id][0] && nearest[i][1] == points[id][1] && processed[id] == false)
+                {
+                    processed[id] = true;
+                    cluster->push_back(nearest[i]);
+                }
+                
             }
         }
-    }
-
-    for (int i = 0; i < processed.size(); i++)
-    {
-        cout << "Processed: " << processed[i] << endl;
     }
 
     return cluster;
@@ -405,5 +394,3 @@ vector<vector<vector<float>>*> clustersTree(vector<vector<float>> points, float 
 
     return ptrClusters;
 }
-
-
