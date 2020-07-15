@@ -36,7 +36,7 @@ int main()
     }
 
     //Euclidean Clustering
-    Clusters = clustersTree(points, 3);
+    Clusters = clustersTree(points, 5, 2);
     for (int i = 0; i < Clusters.size(); i++)
     {
         cout << "************** " << "Cluster " << i << " **************" << endl;
@@ -47,7 +47,10 @@ int main()
             if(dimension)
                 cout << "Cluster z: " << Clusters[i]->at(j).at(2) << endl;
         }
-        
     }
     return 0;
+
+    //clean the memory
+    deleteNos( );
+    deleteClusters( );
 }
