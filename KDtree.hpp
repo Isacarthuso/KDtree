@@ -17,10 +17,10 @@ struct No
 
 vector<float> choosetheponintToBalanceKDtree(vector<vector<float>> cloud);
 void createKDtree(vector<vector<float>> points, bool dim);
-void insertPointAtTree(vector<float> point);
-vector<vector<float>> searchNearestNeighbors(vector<float> target, int tolerance);
-void goThrougthTheTree(No *no, vector<float> target, int tolerance, vector<vector<float>> &NearestNeighbors);
-
-//vector<vector<float>>* clustersTree(vector<vector<float>> points, float distanceTol);
-vector<vector<vector<float>>*> clustersTree(vector<vector<float>> points, float distanceTol);
-vector<vector<float>> *clusteringTree(vector<float> point, vector<vector<float>> points, vector<bool>& processed, float distanceTol);
+void insertPointAtTree(vector<float> point, bool deleteNo);
+vector<vector<float>> searchNearestNeighbors(vector<float> target, float tolerance);
+void goThrougthTheTree(No *no, vector<float> target, float tolerance, vector<vector<float>> &NearestNeighbors);
+vector<vector<vector<float>>*> clustersTree(vector<vector<float>> points, float distanceTol, int minpoints);
+vector<vector<float>> *clusteringTree(vector<float> point, vector<vector<float>> points, vector<bool>& processed, float distanceTol, int &minpoints, bool deleteClusters);
+void deleteNos(void);
+void deleteClusters(void);
